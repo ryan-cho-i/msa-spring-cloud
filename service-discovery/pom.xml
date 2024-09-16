@@ -6,10 +6,12 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.3.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath>../pom.xml</relativePath>
 	</parent>
+	<packaging>jar</packaging>
+
 	<groupId>org.ryanchoi</groupId>
-	<artifactId>discoveryservice</artifactId>
+	<artifactId>service-discovery</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>service-discovery</name>
 	<description>Demo project for Spring Boot</description>
