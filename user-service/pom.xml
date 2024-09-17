@@ -7,16 +7,17 @@
 		<groupId>org.ryanchoi</groupId>
 		<artifactId>msa-spring-cloud</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath>../pom.xml</relativePath>
 	</parent>
-
-	<packaging>jar</packaging>
 
 	<groupId>org.ryanchoi</groupId>
 	<artifactId>user-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>user-service</name>
 	<description>Demo project for Spring Boot</description>
+
+	<packaging>jar</packaging>
+
 	<url/>
 	<licenses>
 		<license/>
