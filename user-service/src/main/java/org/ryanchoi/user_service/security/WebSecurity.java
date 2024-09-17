@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -47,9 +48,13 @@ public class WebSecurity {
 
     @Bean
     protected SecurityFilterChain config(HttpSecurity http) throws Exception {
+        // Configure AuthenticationManagerBuilder
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
         http.csrf( (csrf) -> csrf.disable() );
-
         http.authorizeHttpRequests(
                 authorize -> authorize
                         .requestMatchers(WHITE_LIST_GET).permitAll()
@@ -57,7 +62,7 @@ public class WebSecurity {
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
         );
-
+        http.addFilter(getAuthenticationFilter(authenticationManager));
         http.headers((headers) -> headers.frameOptions( (frameOptions) -> frameOptions.sameOrigin()));
 
         return http.build();
