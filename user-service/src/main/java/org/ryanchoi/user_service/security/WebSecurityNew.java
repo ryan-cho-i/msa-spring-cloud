@@ -35,6 +35,22 @@ public class WebSecurityNew {
     public static final String SUBNET = "/32";
     public static final IpAddressMatcher ALLOWED_IP_ADDRESS_MATCHER = new IpAddressMatcher(ALLOWED_IP_ADDRESS + SUBNET);
 
+    private static final String MY_IP = "74.102.125.219";
+
+    private static final String[] WHITE_LIST_GET = {
+            "/actuator/**",
+            "/h2-console/**",
+            "/welcome",
+            "/health-check",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/v3/api-docs/**",
+    };
+
+    private static final String[] WHITE_LIST_POST = {
+            "/users"
+    };
+
     public WebSecurityNew(Environment env, UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.env = env;
         this.userService = userService;
@@ -46,31 +62,32 @@ public class WebSecurityNew {
         // Configure AuthenticationManagerBuilder
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+        authenticationManagerBuilder
+                .userDetailsService(userService)
+                .passwordEncoder(bCryptPasswordEncoder);
 
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
-        http.csrf( (csrf) -> csrf.disable() );
-
-        http.authorizeHttpRequests((authz) -> authz
-                                .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/users", "POST")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/welcome")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/health-check")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/swagger-resources/**")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
+        http
+                .csrf( (csrf) -> csrf.disable() )
+                .authorizeHttpRequests(
+                        (authz) -> authz
+                                .requestMatchers(WHITE_LIST_GET).permitAll()
+                                .requestMatchers(HttpMethod.POST, WHITE_LIST_POST).permitAll()
                                 .requestMatchers("/**").access(
-                                        new WebExpressionAuthorizationManager("hasIpAddress('localhost') or hasIpAddress('127.0.0.1') or hasIpAddress('172.30.96.94')")) // host pc ip address
+                                        new WebExpressionAuthorizationManager("hasIpAddress('localhost') or hasIpAddress('127.0.0.1') or hasIpAddress('" + MY_IP +"')")) // host pc ip address
                                 .anyRequest().authenticated()
                 )
-        .authenticationManager(authenticationManager)
-        .sessionManagement((session) -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-        http.addFilter(getAuthenticationFilter(authenticationManager));
-        http.headers((headers) -> headers.frameOptions((frameOptions) -> frameOptions.sameOrigin()));
+                .authenticationManager(authenticationManager)
+                .sessionManagement(
+                        (session) -> session
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .addFilter(getAuthenticationFilter(authenticationManager))
+                .headers(
+                        (headers) -> headers
+                                .frameOptions((frameOptions) -> frameOptions.sameOrigin())
+                );
 
         return http.build();
     }
