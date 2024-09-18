@@ -50,7 +50,7 @@ public class AuthenticationFilterNew extends UsernamePasswordAuthenticationFilte
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getEmail(),
-                            creds.getPassword(),
+                            creds.getPwd(),
                             new ArrayList<>()
                     )
             );
