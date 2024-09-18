@@ -1,4 +1,4 @@
-package org.ryanchoi.discoveryservice;
+package org.ryanchoi.servicediscovery;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,9 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @SpringBootApplication
 @EnableEurekaServer
-public class DiscoveryserviceApplication {
-
+public class ServiceDiscoveryApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(DiscoveryserviceApplication.class, args);
+		SpringApplication.run(ServiceDiscoveryApplication.class, args);
 	}
 
 }

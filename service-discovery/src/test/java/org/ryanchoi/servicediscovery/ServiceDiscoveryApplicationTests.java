@@ -1,10 +1,10 @@
-package org.ryanchoi.discoveryservice;
+package org.ryanchoi.servicediscovery;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DiscoveryserviceApplicationTests {
+class ServiceDiscoveryApplicationTests {
 
 	@Test
 	void contextLoads() {

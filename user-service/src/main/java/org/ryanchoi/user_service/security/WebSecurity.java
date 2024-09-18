@@ -51,21 +51,27 @@ public class WebSecurity {
         // Configure AuthenticationManagerBuilder
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+        authenticationManagerBuilder
+                .userDetailsService(userService)
+                .passwordEncoder(bCryptPasswordEncoder);
+
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
-        http.csrf( (csrf) -> csrf.disable() );
-        http.authorizeHttpRequests(
-                authorize -> authorize
-                        .requestMatchers(WHITE_LIST_GET).permitAll()
-                        .requestMatchers(HttpMethod.POST, WHITE_LIST_POST).permitAll()
-                        .requestMatchers("/**").permitAll()
-                        .anyRequest().authenticated()
-        );
-        http.addFilter(getAuthenticationFilter(authenticationManager));
-        http.headers((headers) -> headers.frameOptions( (frameOptions) -> frameOptions.sameOrigin()));
-
-        return http.build();
+        return http
+                .csrf( (csrf) -> csrf.disable() )
+                .authorizeHttpRequests(
+                        authorize -> authorize
+                                .requestMatchers(WHITE_LIST_GET).permitAll()
+                                .requestMatchers(HttpMethod.POST, WHITE_LIST_POST).permitAll()
+//                                .requestMatchers("/**").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .addFilter(getAuthenticationFilter(authenticationManager))
+                .headers(
+                        (headers) -> headers.frameOptions(
+                                (frameOptions) -> frameOptions.sameOrigin()
+                        )
+                ).build();
     }
 
     private AuthenticationFilter getAuthenticationFilter( AuthenticationManager authenticationManager ) throws Exception {

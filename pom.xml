@@ -10,13 +10,13 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
+	<packaging>pom</packaging>
+
 	<groupId>org.ryanchoi</groupId>
 	<artifactId>msa-spring-cloud</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>msa-spring-cloud</name>
 	<description>Demo project for Spring Boot</description>
-
-	<packaging>pom</packaging>
 
 	<url/>
 	<licenses>
