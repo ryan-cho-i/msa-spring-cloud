@@ -37,20 +37,24 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
         - id: catalog-service
           uri: lb://CATALOG-SERVICE
           predicates:
             - Path=/catalog-service/**
+
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order-service/**
+
         - id: first-service
           uri: lb://MY-FIRST-SERVICE
           predicates:
             - Path=/first-service/**
           filters:
             - CustomFilter
+
         - id: second-service
           uri: lb://MY-SECOND-SERVICE
           predicates:
