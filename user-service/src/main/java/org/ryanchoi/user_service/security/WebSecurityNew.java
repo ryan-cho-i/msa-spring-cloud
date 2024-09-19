@@ -98,5 +98,4 @@ public class WebSecurityNew {
     private AuthenticationFilterNew getAuthenticationFilter(AuthenticationManager authenticationManager) throws Exception {
         return new AuthenticationFilterNew(authenticationManager, userService, env);
     }
-
 }
