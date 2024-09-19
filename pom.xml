@@ -16,9 +16,6 @@
 	<groupId>org.ryanchoi</groupId>
 	<artifactId>msa-spring-cloud</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
-	<packaging>pom</packaging>
-
 	<name>msa-spring-cloud</name>
 	<description>Demo project for Spring Boot</description>
 
