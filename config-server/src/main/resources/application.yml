@@ -7,6 +7,7 @@ spring:
   cloud:
     config:
       server:
-        native:
-          search-locations: file:///Users/ryanchoi/Desktop/study/git-local-repo
+        git:
+          uri: https://github.com/ryan-cho-i/msa-spring-cloud-config
+          default-label: main
 
