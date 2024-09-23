@@ -71,6 +71,11 @@ spring:
             - Path=/second-service/**
           filters:
             - CustomFilter
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5671
+    username: guest
+    password: guest
 
 eureka:
   client:

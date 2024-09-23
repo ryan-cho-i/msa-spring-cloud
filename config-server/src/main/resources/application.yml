@@ -10,4 +10,14 @@ spring:
         git:
           uri: https://github.com/ryan-cho-i/msa-spring-cloud-config
           default-label: main
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5671
+    username: guest
+    password: guest
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
