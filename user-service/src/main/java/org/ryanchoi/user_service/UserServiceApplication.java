@@ -1,10 +1,12 @@
 package org.ryanchoi.user_service;
 
 import feign.Logger;
+import org.ryanchoi.user_service.error.FeignErrorDecoder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +24,7 @@ public class UserServiceApplication {
 	}
 
 	@Bean
+	@LoadBalanced
 	public RestTemplate getRestTemplate() {
 		int TIMEOUT = 5000;
 
@@ -42,4 +45,9 @@ public class UserServiceApplication {
 	public Logger.Level feignLoggerLevel() {
 		return Logger.Level.FULL;
 	}
+
+//	@Bean
+//	public FeignErrorDecoder getFeignErrorDecoder() {
+//		return new FeignErrorDecoder();
+//	}
 }

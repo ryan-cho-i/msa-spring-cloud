@@ -16,7 +16,10 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -94,8 +97,27 @@ public class UserServiceImpl implements UserService{
 
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
 
-        List<ResponseOrder> orders = new ArrayList<>();
-        userDto.setOrders(orders);
+//        List<ResponseOrder> orders = new ArrayList<>();
+
+        /* Using as rest template */
+//        String orderUrl = String.format(env.getProperty("order_service.url"), userId);
+//        ResponseEntity<List<ResponseOrder>> orderListResponse =
+//                restTemplate.exchange(orderUrl, HttpMethod.GET, null,
+//                        new ParameterizedTypeReference<List<ResponseOrder>>() {
+//                });
+//        List<ResponseOrder> ordersList = orderListResponse.getBody();
+
+        /* Using a feign client */
+        /* Feign exception handling */
+//        List<ResponseOrder> ordersList = null;
+//        try {
+//            ordersList = orderServiceClient.getOrders(userId);
+//        } catch (FeignException ex) {
+//            log.error(ex.getMessage());
+//        }
+
+        List<ResponseOrder> ordersList = orderServiceClient.getOrders(userId);
+        userDto.setOrders(ordersList);
 
         return userDto;
     }

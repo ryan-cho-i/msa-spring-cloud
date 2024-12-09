@@ -1,9 +1,9 @@
 spring:
   application:
-    name: application
+    name: user-service
   cloud:
     config:
       uri: http://127.0.0.1:8888
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
 

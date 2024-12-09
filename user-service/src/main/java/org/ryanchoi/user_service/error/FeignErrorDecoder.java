@@ -25,7 +25,7 @@ public class FeignErrorDecoder implements ErrorDecoder {
             case 404:
                 if (methodKey.contains("getOrders")) {
                     return new ResponseStatusException(HttpStatusCode.valueOf(response.status()),
-                            "User's order is empty");
+                            env.getProperty("order_service.exception.order_is_empty"));
                 }
                 break;
             default:
